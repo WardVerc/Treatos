@@ -1,5 +1,5 @@
 Welcome to Treatos!
 
-Please use our app with respect.
+Please treat our app with respect.
 
 Woof!
