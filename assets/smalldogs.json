@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "name": "Bibbie",
+    "bio": "Backenders swipe left, hello frontenders :)",
+    "image": "https://images.dog.ceo/breeds/setter-irish/n02100877_1165.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Ferrell",
+    "bio": "I like balls",
+    "image": "https://images.dog.ceo/breeds/cotondetulear/IMG_20160830_202631573.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Isa and Mark",
+    "bio": "We are looking for someone to spice it up in the bedroom",
+    "image": "https://images.dog.ceo/breeds/kuvasz/n02104029_1138.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Garry",
+    "bio": "Wanna eat pasta together? Because on my own can get canneloni",
+    "image": "https://images.dog.ceo/breeds/sheepdog-shetland/n02105855_15724.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Bernie",
+    "bio": "Managed real-time structure",
+    "image": "https://images.dog.ceo/breeds/rottweiler/n02106550_3528.jpg"
+  }
+]

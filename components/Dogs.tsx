@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ImageBackground,
   View,
@@ -9,6 +9,7 @@ import {
 import useGetDogs from "./useGetDogs";
 import { StackParamList } from "../App";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import Dog from "./Dog";
 
 type Props = NativeStackScreenProps<StackParamList, "Dogs">;
 
@@ -30,19 +31,7 @@ const Dogs: React.FC<Props> = ({ navigation }) => {
           </View>
           <FlatList
             data={dogs}
-            renderItem={({ item }) => (
-              <View style={styles.dogCard}>
-                <ImageBackground
-                  style={styles.dog}
-                  source={{ uri: item.image }}
-                >
-                  <View style={styles.userInfo}>
-                    <Text style={styles.name}>{item.name}</Text>
-                    <Text style={styles.bio}>{item.bio}</Text>
-                  </View>
-                </ImageBackground>
-              </View>
-            )}
+            renderItem={({ item }) => <Dog dog={item} />}
             keyExtractor={(item) => item.id.toString()}
           />
           <View style={styles.bottomBorder}>
@@ -70,40 +59,6 @@ const styles = StyleSheet.create({
     height: 80,
     alignItems: "center",
     justifyContent: "center",
-  },
-  dogCard: {
-    width: 350,
-    height: 450,
-    marginBottom: 50,
-    borderRadius: 10,
-
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 5,
-      height: 6,
-    },
-    shadowOpacity: 0.37,
-    shadowRadius: 7.49,
-    elevation: 12,
-  },
-  dog: {
-    width: "100%",
-    height: "100%",
-    overflow: "hidden",
-    borderRadius: 10,
-    justifyContent: "flex-end",
-  },
-  userInfo: {
-    padding: 10,
-  },
-  name: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 30,
-  },
-  bio: {
-    color: "white",
-    fontSize: 20,
   },
 });
 
