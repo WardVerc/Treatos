@@ -7,7 +7,7 @@ export interface DogUrisType {
   message: string[];
 }
 
-export interface DogProps {
+export interface DogType {
   id: number;
   name: string;
   bio: string;
@@ -17,7 +17,7 @@ export interface DogProps {
 const useGetDogs = () => {
   const [isLoading, setLoading] = useState(true);
   const [dogUris, setDogUris] = useState<DogUrisType>({ message: [] });
-  const [dogs, setDogs] = useState<DogProps[]>();
+  const [dogs, setDogs] = useState<DogType[]>();
 
   // const createDogs = (dogUris: DogUrisType): Dog[] => {
   //   const newDogs = jsonDogs.map((item, index) => ({
@@ -40,13 +40,14 @@ const useGetDogs = () => {
   // useEffect(() => {
   //   getDogImages();
   // }, []);
-  useEffect(() => {
-    setLoading(true);
-    setDogs(smallDogs);
-    setLoading(false);
-  }, []);
 
-  return { isLoading, dogs };
+  // useEffect(() => {
+  //   setLoading(true);
+  //   setDogs(smallDogs);
+  //   setLoading(false);
+  // }, []);
+
+  return { isLoading, dogs: smallDogs };
 };
 
 export default useGetDogs;
