@@ -15,12 +15,21 @@ import { useCallback } from "react";
 interface DogProps {
   dog: DogType;
   isFirst: boolean;
+  removeTopCard: () => void;
 }
 
-const Dog: React.FC<DogProps> = ({ dog, isFirst }) => {
+const Dog: React.FC<DogProps> = ({ dog, isFirst, removeTopCard }) => {
   // hold x and y positions
   const swipe = useRef(new Animated.ValueXY()).current; //all values of X and Y
   const tiltSign = useRef(new Animated.Value(1)).current; //only hold 1 or -1 see onPanResponderMove
+
+  const removeCard = useCallback(() => {
+    removeTopCard();
+    swipe.setValue({
+      x: 0,
+      y: 0,
+    });
+  }, [swipe]);
 
   const panResponder = PanResponder.create({
     onMoveShouldSetPanResponder: () => true,
@@ -30,17 +39,31 @@ const Dog: React.FC<DogProps> = ({ dog, isFirst }) => {
       // hold 1/-1 depending if touch is tophalf/bottomhalf
       tiltSign.setValue(y0 > CARD.HEIGHT / 2 ? 1 : -1);
     },
-    onPanResponderRelease: () => {
-      // on release put animated view back to original pos, spring for smooth transition
-      Animated.spring(swipe, {
-        toValue: {
-          x: 0,
-          y: 0,
-        },
-        useNativeDriver: true,
-        // bouncy effect on release
-        friction: 7,
-      }).start();
+    onPanResponderRelease: (_, { dx, dy }) => {
+      const direction = Math.sign(dx);
+      const isActionActive = Math.abs(dx) > ACTION_OFFSET;
+
+      if (isActionActive) {
+        Animated.timing(swipe, {
+          duration: 400,
+          toValue: {
+            x: direction * CARD.OUT_OF_SCREEN,
+            y: dy,
+          },
+          useNativeDriver: true,
+        }).start(removeCard);
+      } else {
+        // on release put animated view back to original pos, spring for smooth transition
+        Animated.spring(swipe, {
+          toValue: {
+            x: 0,
+            y: 0,
+          },
+          useNativeDriver: true,
+          // bouncy effect on release
+          friction: 7,
+        }).start();
+      }
     },
   });
 

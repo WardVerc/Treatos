@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, StyleSheet } from "react-native";
 import { DogType } from "./useGetDogs";
 import { StackParamList } from "../App";
@@ -14,6 +14,16 @@ type Props = NativeStackScreenProps<StackParamList, "Dogs">;
 const Dogs: React.FC<Props> = ({ navigation }) => {
   const [dogs, setDogs] = useState<DogType[]>(smallDogs);
 
+  useEffect(() => {
+    if (!dogs.length) {
+      setDogs(smallDogs);
+    }
+  }, [dogs.length]);
+
+  const removeTopCard = useCallback(() => {
+    setDogs((prevstate) => prevstate.slice(1));
+  }, []);
+
   return (
     <View style={styles.container}>
       <Header />
@@ -21,7 +31,14 @@ const Dogs: React.FC<Props> = ({ navigation }) => {
         {dogs
           .map((dog, index) => {
             const isFirst = index === 0;
-            return <Dog dog={dog} isFirst={isFirst} key={dog.id} />;
+            return (
+              <Dog
+                dog={dog}
+                isFirst={isFirst}
+                key={dog.id}
+                removeTopCard={removeTopCard}
+              />
+            );
           })
           .reverse()}
       </View>
