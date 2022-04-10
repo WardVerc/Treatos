@@ -2,6 +2,8 @@ import { Dimensions } from "react-native";
 
 const { width, height } = Dimensions.get("screen");
 
+export const ACTION_OFFSET = 100;
+
 export const SCREEN = {
   WIDTH: width,
   HEIGHT: height,

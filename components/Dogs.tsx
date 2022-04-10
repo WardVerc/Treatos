@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, StatusBar } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { DogType } from "./useGetDogs";
 import { StackParamList } from "../App";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Dog from "./Dog";
 import smallDogs from "../assets/smalldogs.json";
-import { CARD, SCREEN } from "../assets/constants";
+import { CARD } from "../assets/constants";
+import Footer from "./Footer";
+import Header from "./Header";
 
 type Props = NativeStackScreenProps<StackParamList, "Dogs">;
 
@@ -14,9 +16,7 @@ const Dogs: React.FC<Props> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text>Header</Text>
-      </View>
+      <Header />
       <View style={styles.dogsContainer}>
         {dogs
           .map((dog, index) => {
@@ -25,10 +25,7 @@ const Dogs: React.FC<Props> = ({ navigation }) => {
           })
           .reverse()}
       </View>
-
-      <View style={styles.buttons}>
-        <Text>Buttons</Text>
-      </View>
+      <Footer />
     </View>
   );
 };
@@ -40,28 +37,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  header: {
-    width: SCREEN.WIDTH,
-    height: 70,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "white",
-    zIndex: 3,
-  },
   dogsContainer: {
     width: CARD.WIDTH,
     height: CARD.HEIGHT,
     borderRadius: CARD.BORDERRADIUS,
     alignItems: "center",
     justifyContent: "center",
-  },
-  buttons: {
-    width: SCREEN.WIDTH,
-    height: 70,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "white",
-    zIndex: 3,
   },
 });
 

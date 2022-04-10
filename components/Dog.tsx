@@ -7,9 +7,10 @@ import {
   Animated,
   PanResponder,
 } from "react-native";
-import { CARD, COLORS } from "../assets/constants";
+import { ACTION_OFFSET, CARD, COLORS } from "../assets/constants";
 import { useRef } from "react";
 import LikeDislike from "./LikeDislike";
+import { useCallback } from "react";
 
 interface DogProps {
   dog: DogType;
@@ -18,13 +19,16 @@ interface DogProps {
 
 const Dog: React.FC<DogProps> = ({ dog, isFirst }) => {
   // hold x and y positions
-  const swipe = useRef(new Animated.ValueXY()).current;
+  const swipe = useRef(new Animated.ValueXY()).current; //all values of X and Y
+  const tiltSign = useRef(new Animated.Value(1)).current; //only hold 1 or -1 see onPanResponderMove
 
   const panResponder = PanResponder.create({
     onMoveShouldSetPanResponder: () => true,
     // on touch, hold the same x and y changes in swipe
-    onPanResponderMove: (_, { dx, dy }) => {
+    onPanResponderMove: (_, { dx, dy, y0 }) => {
       swipe.setValue({ x: dx, y: dy });
+      // hold 1/-1 depending if touch is tophalf/bottomhalf
+      tiltSign.setValue(y0 > CARD.HEIGHT / 2 ? 1 : -1);
     },
     onPanResponderRelease: () => {
       // on release put animated view back to original pos, spring for smooth transition
@@ -43,10 +47,22 @@ const Dog: React.FC<DogProps> = ({ dog, isFirst }) => {
   // put handlers on animated view
   const dragHandlers = panResponder.panHandlers;
 
-  // add rotation mapped to x position
-  const rotate = swipe.x.interpolate({
-    inputRange: [-100, 0, 100],
-    outputRange: ["-8deg", "0deg", "8deg"],
+  // add rotation mapped to x position, 1/-1 depending on touch tophalf/bottomhalf
+  const rotate = Animated.multiply(swipe.x, tiltSign).interpolate({
+    inputRange: [-ACTION_OFFSET, 0, ACTION_OFFSET],
+    outputRange: ["8deg", "0deg", "-8deg"],
+  });
+
+  const likeOpacity = swipe.x.interpolate({
+    inputRange: [25, ACTION_OFFSET],
+    outputRange: [0, 1],
+    extrapolate: "clamp",
+  });
+
+  const nopeOpacity = swipe.x.interpolate({
+    inputRange: [-ACTION_OFFSET, 0],
+    outputRange: [1, 0],
+    extrapolate: "clamp",
   });
 
   // give the animated view the tranform (= swipe changes)
@@ -54,18 +70,20 @@ const Dog: React.FC<DogProps> = ({ dog, isFirst }) => {
     transform: [...swipe.getTranslateTransform(), { rotate }],
   };
 
-  const renderLikeDislike = () => {
+  const renderLikeDislike = useCallback(() => {
     return (
       <View style={styles.likeDislikeContainer}>
-        <View style={styles.likeContainer}>
+        <Animated.View style={[styles.likeContainer, { opacity: likeOpacity }]}>
           <LikeDislike type="like" color={COLORS.like} />
-        </View>
-        <View style={styles.dislikeContainer}>
+        </Animated.View>
+        <Animated.View
+          style={[styles.dislikeContainer, { opacity: nopeOpacity }]}
+        >
           <LikeDislike type="nope" color={COLORS.nope} />
-        </View>
+        </Animated.View>
       </View>
     );
-  };
+  }, [likeOpacity, nopeOpacity]);
 
   return (
     <Animated.View style={[styles.dogCard, dogStyle]} {...dragHandlers}>
@@ -86,15 +104,6 @@ const styles = StyleSheet.create({
     width: CARD.WIDTH,
     height: CARD.HEIGHT,
     borderRadius: CARD.BORDERRADIUS,
-
-    // shadowbox around card
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 3,
-      height: 1,
-    },
-    shadowOpacity: 0.37,
-    shadowRadius: 5.5,
     elevation: 7,
   },
   dogImage: {
