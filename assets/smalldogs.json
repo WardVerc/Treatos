@@ -1,9 +1,9 @@
 [
   {
     "id": 1,
-    "name": "Bibbie",
-    "bio": "Backenders swipe left, hello frontenders :)",
-    "image": "https://images.dog.ceo/breeds/setter-irish/n02100877_1165.jpg"
+    "name": "Bernie",
+    "bio": "Managed real-time structure",
+    "image": "https://images.dog.ceo/breeds/rottweiler/n02106550_3528.jpg"
   },
   {
     "id": 2,
@@ -25,8 +25,8 @@
   },
   {
     "id": 5,
-    "name": "Bernie",
-    "bio": "Managed real-time structure",
-    "image": "https://images.dog.ceo/breeds/rottweiler/n02106550_3528.jpg"
+    "name": "Bibbie",
+    "bio": "Backenders swipe left, hello frontenders :)",
+    "image": "https://images.dog.ceo/breeds/setter-irish/n02100877_1165.jpg"
   }
 ]
