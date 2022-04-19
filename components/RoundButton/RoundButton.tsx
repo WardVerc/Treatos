@@ -1,11 +1,7 @@
 import React, { useRef, useCallback } from "react";
-import {
-  Animated,
-  StyleSheet,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native";
+import { Animated, TouchableWithoutFeedback } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import { styles } from "./RoundButton.styles";
 
 interface RoundButtonProps {
   name: any;
@@ -41,15 +37,3 @@ const RoundButton: React.FC<RoundButtonProps> = ({ name, size, color }) => {
 };
 
 export default RoundButton;
-
-const styles = StyleSheet.create({
-  container: {
-    width: 70,
-    height: 70,
-    elevation: 5,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 40,
-    backgroundColor: "#fff",
-  },
-});

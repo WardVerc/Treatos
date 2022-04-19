@@ -1,6 +1,5 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image, Button } from "react-native";
-import Dogs from "./Dogs";
 import { StackParamList } from "../App";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 

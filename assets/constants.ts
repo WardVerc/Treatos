@@ -20,3 +20,7 @@ export const COLORS = {
   like: "#00eda6",
   nope: "#ff006f",
 };
+
+export const HEADER = {
+  HEIGHT: 70,
+};

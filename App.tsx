@@ -1,7 +1,5 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import Dogs from "./components/Dogs";
+import Dogs from "./components/Dogs/Dogs";
 import Home from "./components/Home";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
