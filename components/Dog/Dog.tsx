@@ -1,24 +1,23 @@
-import { DogType } from "./useGetDogs";
+import { DogType } from "../../hooks/useGetDogs";
 import {
   ImageBackground,
   View,
   Text,
-  StyleSheet,
   Animated,
   PanResponder,
 } from "react-native";
-import { ACTION_OFFSET, CARD, COLORS } from "../assets/constants";
+import { ACTION_OFFSET, CARD, COLORS } from "../../assets/constants";
 import { useRef } from "react";
-import LikeDislike from "./LikeDislike";
+import LikeDislike from "../LikeDislike/LikeDislike";
 import { useCallback } from "react";
+import { styles } from "./Dog.styles";
 
 interface DogProps {
   dog: DogType;
-  isFirst: boolean;
   removeTopCard: () => void;
 }
 
-const Dog: React.FC<DogProps> = ({ dog, isFirst, removeTopCard }) => {
+const Dog: React.FC<DogProps> = ({ dog, removeTopCard }) => {
   // hold x and y positions
   const swipe = useRef(new Animated.ValueXY()).current; //all values of X and Y
   const tiltSign = useRef(new Animated.Value(1)).current; //only hold 1 or -1 see onPanResponderMove
@@ -66,6 +65,17 @@ const Dog: React.FC<DogProps> = ({ dog, isFirst, removeTopCard }) => {
       }
     },
   });
+
+  const handleChoice = useCallback(
+    (direction) => {
+      Animated.timing(swipe.x, {
+        duration: 400,
+        toValue: direction * CARD.OUT_OF_SCREEN,
+        useNativeDriver: true,
+      }).start(removeCard);
+    },
+    [swipe.x, removeCard]
+  );
 
   // put handlers on animated view
   const dragHandlers = panResponder.panHandlers;
@@ -120,48 +130,5 @@ const Dog: React.FC<DogProps> = ({ dog, isFirst, removeTopCard }) => {
     </Animated.View>
   );
 };
-
-const styles = StyleSheet.create({
-  dogCard: {
-    position: "absolute",
-    width: CARD.WIDTH,
-    height: CARD.HEIGHT,
-    borderRadius: CARD.BORDERRADIUS,
-    elevation: 7,
-  },
-  dogImage: {
-    width: "100%",
-    height: "100%",
-    overflow: "hidden",
-    borderRadius: 10,
-    justifyContent: "space-between",
-  },
-  likeDislikeContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    top: 80,
-  },
-  likeContainer: {
-    left: 45,
-    transform: [{ rotate: "-25deg" }],
-  },
-  dislikeContainer: {
-    right: 25,
-    transform: [{ rotate: "25deg" }],
-  },
-  userInfo: {
-    padding: 10,
-    backgroundColor: "rgba(0,0,0,0.15)",
-  },
-  name: {
-    color: "white",
-    fontWeight: "bold",
-    fontSize: 30,
-  },
-  bio: {
-    color: "white",
-    fontSize: 20,
-  },
-});
 
 export default Dog;

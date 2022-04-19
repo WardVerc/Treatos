@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { SCREEN } from "../assets/constants";
+import { HEADER, SCREEN } from "../assets/constants";
 
 const Header = () => {
   return (
@@ -15,7 +15,7 @@ export default Header;
 const styles = StyleSheet.create({
   header: {
     width: SCREEN.WIDTH,
-    height: 70,
+    height: HEADER.HEIGHT,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "white",
