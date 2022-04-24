@@ -25,9 +25,9 @@ const Dogs: React.FC<Props> = ({ navigation }) => {
     console.log(isLoading + " " + loadedDogs);
   }, [loadedDogs, isLoading]);
 
-  const removeTopCard = useCallback(() => {
+  const removeTopCard = () => {
     setDogs((prevstate) => prevstate.slice(1));
-  }, []);
+  };
 
   return (
     <View style={styles.container}>
